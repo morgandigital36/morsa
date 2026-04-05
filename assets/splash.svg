@@ -1,0 +1,13 @@
+<svg width="1284" height="2778" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2A4D69;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a3d59;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="1284" height="2778" fill="url(#grad)"/>
+  <text x="642" y="1300" font-family="Arial" font-size="120" fill="white" text-anchor="middle" font-weight="bold">RabithahAPP</text>
+  <text x="642" y="1450" font-family="Arial" font-size="48" fill="#BBB" text-anchor="middle">Pendamping Spiritual Muslim</text>
+  <circle cx="642" cy="1000" r="120" fill="none" stroke="white" stroke-width="10"/>
+  <path d="M 642 880 L 642 1120" stroke="white" stroke-width="10"/>
+</svg>

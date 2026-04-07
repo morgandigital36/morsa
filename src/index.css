@@ -3,8 +3,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap');
 
 @font-face {
-  font-family: 'KFGQPC Uthmanic Script HAFS';
-  src: url('https://fonts.cdnfonts.com/s/19193/UthmanicHafs1Ver18.woff') format('woff');
+  font-family: 'LPMQ IsepMisbah';
+  src: url('https://raw.githubusercontent.com/lpmq-dev/lpmq-font/master/lpmq.woff2') format('woff2'),
+       url('https://raw.githubusercontent.com/mushaf-kemenag/mushaf-kemenag-font/master/LPMQ_IsepMisbah.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -78,13 +79,14 @@
   }
 
   .font-arabic {
-    font-family: 'KFGQPC Uthmanic Script HAFS', serif;
+    font-family: 'LPMQ IsepMisbah', 'Amiri Quran', serif;
     font-size: 1.5em;
-    line-height: 2;
+    line-height: 2.2;
   }
 
   .font-uthmanic {
-    font-family: 'KFGQPC Uthmanic Script HAFS', serif;
+    font-family: 'LPMQ IsepMisbah', 'Amiri Quran', serif;
+    line-height: 2.2; /* better line height for quranic text */
   }
 
   .safe-bottom {

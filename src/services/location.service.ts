@@ -1,100 +1,69 @@
-import * as Location from 'expo-location';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-interface LocationData {
+export interface LocationData {
   latitude: number;
   longitude: number;
-  timestamp?: number;
+  city?: string;
 }
-
-const LOCATION_STORAGE_KEY = '@rabithah_user_location';
 
 class LocationService {
   async getCurrentLocation(): Promise<LocationData | null> {
     try {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        console.log('Location permission not granted');
-        return null;
-      }
-
-      const position = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.Balanced,
+      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0
+        });
       });
 
       const locationData: LocationData = {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
-        timestamp: position.timestamp,
       };
 
-      // Save to storage
-      await this.saveLocation(locationData);
+      const city = await this.getCityFromCoordinates(locationData.latitude, locationData.longitude);
+      locationData.city = city;
 
+      localStorage.setItem('userLocation', JSON.stringify(locationData));
       return locationData;
     } catch (error) {
-      console.error('Error getting current location:', error);
-      return null;
+      console.error('Error getting location:', error);
+      return this.getSavedLocation();
     }
   }
 
   getSavedLocation(): LocationData | null {
-    try {
-      const stored = AsyncStorage.getItemSync(LOCATION_STORAGE_KEY);
-      if (stored) {
-        return JSON.parse(stored);
+    const saved = localStorage.getItem('userLocation');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch {
+        return null;
       }
-    } catch (error) {
-      console.error('Error getting saved location:', error);
     }
     return null;
   }
 
-  async saveLocation(location: LocationData): Promise<void> {
-    try {
-      await AsyncStorage.setItem(LOCATION_STORAGE_KEY, JSON.stringify(location));
-    } catch (error) {
-      console.error('Error saving location:', error);
-    }
-  }
-
   async getCityFromCoordinates(lat: number, lon: number): Promise<string> {
     try {
-      const reverseGeocode = await Location.reverseGeocodeAsync({
-        latitude: lat,
-        longitude: lon,
-      });
-
-      if (reverseGeocode.length > 0) {
-        const addr = reverseGeocode[0];
-        return addr.city || addr.subregion || addr.region || 'Unknown';
-      }
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`,
+        {
+          headers: {
+            'User-Agent': 'IslamicApp/1.0'
+          }
+        }
+      );
+      const data = await response.json();
+      return data.address?.city || data.address?.town || data.address?.village || data.address?.state || 'Unknown Location';
     } catch (error) {
-      console.error('Error reverse geocoding:', error);
-    }
-    return 'Unknown';
-  }
-
-  async requestPermission(): Promise<boolean> {
-    try {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      return status === 'granted';
-    } catch (error) {
-      console.error('Error requesting location permission:', error);
-      return false;
+      console.error('Error getting city name:', error);
+      return 'Unknown Location';
     }
   }
 
-  async getPermissionStatus(): Promise<string> {
-    try {
-      const { status } = await Location.getForegroundPermissionsAsync();
-      return status;
-    } catch (error) {
-      console.error('Error getting permission status:', error);
-      return 'undetermined';
-    }
+  clearSavedLocation() {
+    localStorage.removeItem('userLocation');
   }
 }
 
 export const locationService = new LocationService();
-export type { LocationData };

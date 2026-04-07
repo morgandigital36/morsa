@@ -1,149 +1,138 @@
-import { useState, useEffect, useCallback } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useState, useEffect } from 'react';
 import { prayerService, PrayerTimesData } from '../services/api/prayer.service';
-import { locationService, LocationData } from '../services/location.service';
 import { notificationService } from '../services/notification.service';
+import { locationService } from '../services/location.service';
 
-const PRAYER_TIMES_CACHE_KEY = '@rabithah_prayer_times_cache';
-const PRAYER_TIMES_DATE_KEY = '@rabithah_prayer_times_date';
-const NOTIFICATIONS_ENABLED_KEY = '@rabithah_notifications_enabled';
-
-interface UsePrayerTimesResult {
-  prayerTimes: PrayerTimesData | null;
-  loading: boolean;
-  error: string | null;
-  location: LocationData | null;
-  notificationsEnabled: boolean;
-  refetch: () => Promise<void>;
-  toggleNotifications: (enabled: boolean) => Promise<void>;
-}
-
-export function usePrayerTimes(): UsePrayerTimesResult {
+export function usePrayerTimes() {
   const [prayerTimes, setPrayerTimes] = useState<PrayerTimesData | null>(null);
+  const [nextPrayer, setNextPrayer] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [location, setLocation] = useState<LocationData | null>(null);
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
 
-  // Load initial data
   useEffect(() => {
-    loadInitialData();
+    fetchPrayerTimes();
+    const interval = setInterval(() => {
+      if (prayerTimes) updateNextPrayer(prayerTimes);
+    }, 1000);
+
+    const notifEnabled = localStorage.getItem('notificationsEnabled') === 'true';
+    setNotificationsEnabled(notifEnabled);
+
+    return () => clearInterval(interval);
   }, []);
 
-  const loadInitialData = async () => {
+  useEffect(() => {
+    if (prayerTimes && notificationsEnabled && notificationService.isNotificationEnabled()) {
+      notificationService.scheduleNotifications(prayerTimes);
+    }
+    return () => {
+      notificationService.clearScheduledNotifications();
+    };
+  }, [prayerTimes, notificationsEnabled]);
+
+  const fetchPrayerTimes = async () => {
     try {
       setLoading(true);
       setError(null);
 
-      // Load saved location
-      const savedLocation = locationService.getSavedLocation();
-      if (savedLocation) {
-        setLocation(savedLocation);
-        await loadPrayerTimes(savedLocation.latitude, savedLocation.longitude);
-      } else {
-        // Try to get current location
-        const currentLocation = await locationService.getCurrentLocation();
-        if (currentLocation) {
-          setLocation(currentLocation);
-          await loadPrayerTimes(currentLocation.latitude, currentLocation.longitude);
-        } else {
-          // Use default location (Jakarta)
-          const defaultLocation = { latitude: -6.2088, longitude: 106.8456 };
-          setLocation(defaultLocation);
-          await loadPrayerTimes(defaultLocation.latitude, defaultLocation.longitude);
-        }
-      }
+      const location = await locationService.getCurrentLocation();
 
-      // Load notification setting
-      const notifEnabled = await AsyncStorage.getItem(NOTIFICATIONS_ENABLED_KEY);
-      setNotificationsEnabled(notifEnabled === 'true');
+      if (location && location.latitude && location.longitude) {
+        const times = await prayerService.getPrayerTimesByCoordinates(
+          location.latitude,
+          location.longitude
+        );
+        setPrayerTimes(times);
+        updateNextPrayer(times);
+      } else {
+        const times = await prayerService.getPrayerTimesByCityId('1301');
+        setPrayerTimes(times);
+        updateNextPrayer(times);
+      }
     } catch (err) {
+      console.error('Error fetching prayer times:', err);
       setError('Gagal memuat jadwal sholat');
-      console.error('Error loading prayer times:', err);
+      try {
+        const times = await prayerService.getPrayerTimesByCityId('1301');
+        setPrayerTimes(times);
+        updateNextPrayer(times);
+      } catch (fallbackErr) {
+        console.error('Fallback also failed:', fallbackErr);
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  const loadPrayerTimes = async (lat: number, lon: number) => {
-    try {
-      // Check cache first
-      const cachedDate = await AsyncStorage.getItem(PRAYER_TIMES_DATE_KEY);
-      const today = new Date().toISOString().split('T')[0];
-
-      if (cachedDate === today) {
-        const cached = await AsyncStorage.getItem(PRAYER_TIMES_CACHE_KEY);
-        if (cached) {
-          setPrayerTimes(JSON.parse(cached));
-          return;
-        }
-      }
-
-      // Fetch fresh data
-      const data = await prayerService.getPrayerTimesByCoordinates(lat, lon);
-      
-      if (data) {
-        setPrayerTimes(data);
-        
-        // Cache the result
-        await AsyncStorage.setItem(PRAYER_TIMES_CACHE_KEY, JSON.stringify(data));
-        await AsyncStorage.setItem(PRAYER_TIMES_DATE_KEY, today);
-      }
-    } catch (err) {
-      console.error('Error loading prayer times:', err);
-      // Try to use cached data even if expired
-      const cached = await AsyncStorage.getItem(PRAYER_TIMES_CACHE_KEY);
-      if (cached) {
-        setPrayerTimes(JSON.parse(cached));
-      }
-    }
+  const toggleNotifications = (enabled: boolean) => {
+    setNotificationsEnabled(enabled);
+    localStorage.setItem('notificationsEnabled', enabled.toString());
   };
 
-  const refetch = useCallback(async () => {
-    if (location) {
-      setLoading(true);
-      await loadPrayerTimes(location.latitude, location.longitude);
-      setLoading(false);
-    }
-  }, [location]);
+  const updateNextPrayer = (times: PrayerTimesData) => {
+    const now = new Date();
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+    const prayers = [
+      { name: 'Subuh', time: times.fajr },
+      { name: 'Dzuhur', time: times.dhuhr },
+      { name: 'Ashar', time: times.asr },
+      { name: 'Maghrib', time: times.maghrib },
+      { name: 'Isya', time: times.isha },
+    ];
 
-  const toggleNotifications = useCallback(async (enabled: boolean) => {
-    try {
-      if (enabled) {
-        const hasPermission = await notificationService.requestPermission();
-        if (hasPermission) {
-          setNotificationsEnabled(true);
-          await AsyncStorage.setItem(NOTIFICATIONS_ENABLED_KEY, 'true');
-          
-          // Schedule prayer notifications if prayer times available
-          if (prayerTimes) {
-            const prayers = [
-              { name: 'Subuh', time: prayerTimes.subuh, hours: 4, minutes: 30 },
-              { name: 'Dzuhur', time: prayerTimes.dzuhur, hours: 12, minutes: 0 },
-              { name: 'Ashar', time: prayerTimes.ashar, hours: 15, minutes: 15 },
-              { name: 'Maghrib', time: prayerTimes.maghrib, hours: 18, minutes: 0 },
-              { name: 'Isya', time: prayerTimes.isya, hours: 19, minutes: 15 },
-            ];
-            await notificationService.scheduleDailyPrayerNotifications(prayers);
-          }
-        }
-      } else {
-        await notificationService.cancelAllNotifications();
-        setNotificationsEnabled(false);
-        await AsyncStorage.setItem(NOTIFICATIONS_ENABLED_KEY, 'false');
+    for (const prayer of prayers) {
+      const [hours, minutes] = prayer.time.split(':').map(Number);
+      const prayerMinutes = hours * 60 + minutes;
+      if (prayerMinutes > currentMinutes) {
+        const diffMinutes = prayerMinutes - currentMinutes;
+        const hrs = Math.floor(diffMinutes / 60);
+        const mins = diffMinutes % 60;
+        const secs = now.getSeconds();
+        const countdown = hrs > 0 ? `${hrs} jam ${mins} menit` : `${mins} menit ${60 - secs} detik`;
+        setNextPrayer({ name: prayer.name, time: prayer.time, countdown });
+        return;
       }
-    } catch (err) {
-      console.error('Error toggling notifications:', err);
     }
-  }, [prayerTimes]);
+
+    const firstPrayer = prayers[0];
+    const [hours, minutes] = firstPrayer.time.split(':').map(Number);
+    const prayerMinutes = hours * 60 + minutes;
+    const diffMinutes = (24 * 60 - currentMinutes) + prayerMinutes;
+    const hrs = Math.floor(diffMinutes / 60);
+    const mins = diffMinutes % 60;
+    const countdown = `${hrs} jam ${mins} menit`;
+    setNextPrayer({ name: firstPrayer.name, time: firstPrayer.time, countdown });
+  };
+
+  const getAllPrayers = () => {
+    if (!prayerTimes) return [];
+    const now = new Date();
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+    const prayers = [
+      { name: 'Subuh', time: prayerTimes.fajr },
+      { name: 'Terbit', time: prayerTimes.sunrise },
+      { name: 'Dzuhur', time: prayerTimes.dhuhr },
+      { name: 'Ashar', time: prayerTimes.asr },
+      { name: 'Maghrib', time: prayerTimes.maghrib },
+      { name: 'Isya', time: prayerTimes.isha },
+    ];
+
+    return prayers.map((prayer) => {
+      const [hours, minutes] = prayer.time.split(':').map(Number);
+      const prayerMinutes = hours * 60 + minutes;
+      return { ...prayer, isPassed: prayerMinutes < currentMinutes };
+    });
+  };
 
   return {
     prayerTimes,
+    nextPrayer,
+    allPrayers: getAllPrayers(),
     loading,
     error,
-    location,
+    refetch: fetchPrayerTimes,
     notificationsEnabled,
-    refetch,
     toggleNotifications,
   };
 }

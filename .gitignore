@@ -21,21 +21,3 @@ dist-ssr
 *.sln
 *.sw?
 .env
-
-# Expo
-.expo/
-dist/
-web-build/
-
-# Native
-*.orig.*
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
-*.ipa
-*.apk
-
-# Metro
-.metro-health-check*

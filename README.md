@@ -1,13 +1,11 @@
-# 🕌 RabithahAPP - Pendamping Spiritual Muslim Modern
+# dimaskuy - 🕌 RabithahAPP - Pendamping Spiritual Muslim Modern
 
-[![Built with Expo](https://img.shields.io/badge/Expo-51.0-000020.svg)](https://expo.dev/)
-[![React Native](https://img.shields.io/badge/React_Native-0.74-61DAFB.svg)](https://reactnative.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg)](https://www.typescriptlang.org/)
+[![Built with React](https://img.shields.io/badge/React-18.3-blue.svg)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.5-blue.svg)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8.svg)](https://tailwindcss.com/)
 [![Supabase](https://img.shields.io/badge/Supabase-Database-3ecf8e.svg)](https://supabase.com/)
 
-Aplikasi mobile modern untuk membantu umat Muslim dalam menjalankan ibadah harian dengan desain yang indah dan pengalaman pengguna yang mulus.
-
-> **🔄 Status**: Sedang dalam proses migrasi dari React Web ke React Native (Expo). Lihat [EXPO_MIGRATION.md](./EXPO_MIGRATION.md) untuk detail.
+Aplikasi web modern untuk membantu umat Muslim dalam menjalankan ibadah harian dengan desain yang indah dan pengalaman pengguna yang mulus.
 
 ## 🎯 **Highlights**
 
@@ -74,16 +72,13 @@ Aplikasi mobile modern untuk membantu umat Muslim dalam menjalankan ibadah haria
 
 ## 🚀 Tech Stack
 
-- **Framework**: Expo 51.0 + React Native 0.74
-- **Language**: TypeScript 5.3
-- **Routing**: Expo Router (File-based)
+- **Frontend**: React 18.3 + TypeScript
+- **Styling**: Tailwind CSS 3.4
+- **Routing**: React Router v6
 - **Database**: Supabase (PostgreSQL)
 - **Authentication**: Supabase Auth
-- **Styling**: React Native StyleSheet
-- **Icons**: @expo/vector-icons
-- **Sensors**: expo-location, expo-sensors
-- **Audio**: expo-av
-- **Notifications**: expo-notifications
+- **Build Tool**: Vite 5.4
+- **Icons**: Lucide React
 
 ## 📡 API Integration
 
@@ -137,14 +132,14 @@ npm install
 ```
 
 3. **Setup environment variables (OPSIONAL)**
-Aplikasi bekerja tanpa Supabase menggunakan AsyncStorage. Jika ingin sync data antar device, buat `.env` file:
+Aplikasi bekerja tanpa Supabase menggunakan localStorage. Jika ingin sync data antar device, buat `.env` file:
 ```env
-EXPO_PUBLIC_SUPABASE_URL=your_supabase_url
-EXPO_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
 **Tanpa Supabase:**
-- Data tersimpan di AsyncStorage device
+- Data tersimpan di localStorage browser
 - Tidak perlu setup database
 - Langsung bisa dipakai
 
@@ -155,48 +150,25 @@ EXPO_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 
 4. **Start development server**
 ```bash
-npm start
+npm run dev
 ```
 
-5. **Run on device/emulator**
+5. **Build for production**
 ```bash
-# Android
-npm run android
-
-# iOS (Mac only)
-npm run ios
-
-# Web (fallback)
-npm run web
+npm run build
 ```
-
-6. **Build for production**
-```bash
-# Install EAS CLI
-npm install -g eas-cli
-
-# Login to Expo
-eas login
-
-# Build
-eas build --platform android
-eas build --platform ios
-```
-
-Lihat [DEPLOYMENT.md](./DEPLOYMENT.md) untuk panduan lengkap deployment ke Play Store dan App Store.
 
 ## 📱 Navigation Structure
 
 ```
-app/
-├── _layout.tsx     - Root layout dengan providers
-├── index.tsx       - Dashboard (Prayer times, quick access)
-├── quran.tsx       - Al-Qur'an reader
-├── wirid.tsx       - Wirid/Dzikir counter
-├── doa.tsx         - Daily prayers (Doa)
-├── qibla.tsx       - Qibla compass
-├── murottal.tsx    - Murottal audio player
-└── settings.tsx    - App settings
+/                    - Dashboard (Prayer times, quick access)
+/quran              - Al-Qur'an reader
+/dhikr              - Dzikir counter
+/doa                - Daily prayers (Doa)
+/qibla              - Qibla compass
+/progress           - Progress tracking
+/settings           - App settings
+/auth               - Login/Signup
 ```
 
 ## 🎯 Component Architecture
@@ -224,63 +196,27 @@ src/
 - Secure password authentication via Supabase
 - Environment variables untuk sensitive data
 
-## 📱 Platform Support
+## 🌐 Browser Support
 
-- ✅ Android 5.0+ (API 21+)
-- ✅ iOS 13.0+
-- ⚠️ Web (limited features, fallback only)
+- Chrome/Edge (latest)
+- Firefox (latest)
+- Safari (latest)
+- Mobile browsers (iOS Safari, Chrome Mobile)
 
-## 📝 Development Status
+## 📝 Future Enhancements
 
-### ✅ Completed
-- [x] Expo project setup
-- [x] File-based routing (Expo Router)
-- [x] Native component atoms (Button, Card, Text)
-- [x] Build configuration (EAS)
-
-### 🔄 In Progress
-- [ ] Convert all screens to React Native
-- [ ] Implement native navigation
-- [ ] AsyncStorage for data persistence
-- [ ] expo-location integration
-- [ ] expo-notifications setup
-- [ ] expo-sensors for Qibla compass
-- [ ] expo-av for audio player
-
-### 📝 Future Enhancements
+- [ ] PWA support untuk install di mobile
 - [ ] Push notifications untuk prayer times
-- [ ] Haptic feedback untuk better UX
+- [ ] Audio player untuk Qur'an recitation
 - [ ] Multi-language support (English, Arabic)
 - [ ] Social sharing features
 - [ ] Prayer time adjustments
 - [ ] Calendar Hijriah lengkap
 - [ ] Ramadan tracker
-- [ ] Widget support (Android/iOS)
 
-## 📚 Documentation
+## 👥 Contributing
 
-Dokumentasi lengkap tersedia untuk membantu Anda:
-
-### 🚀 Getting Started
-- **[START_HERE.md](./START_HERE.md)** ⭐ - Mulai di sini!
-- **[QUICKSTART.md](./QUICKSTART.md)** - Setup cepat (5 menit)
-- **[DOCUMENTATION_INDEX.md](./DOCUMENTATION_INDEX.md)** - Index semua dokumentasi
-
-### 📖 Development
-- **[EXPO_MIGRATION.md](./EXPO_MIGRATION.md)** - Panduan migrasi lengkap
-- **[NEXT_STEPS.md](./NEXT_STEPS.md)** - Langkah-langkah konkret
-- **[TODO.md](./TODO.md)** - Checklist lengkap tasks
-- **[CONTRIBUTING.md](./CONTRIBUTING.md)** - Guidelines kontribusi
-
-### 📊 Project Management
-- **[PROJECT_STATUS.md](./PROJECT_STATUS.md)** - Status proyek real-time
-- **[CONVERSION_SUMMARY.md](./CONVERSION_SUMMARY.md)** - Summary konversi
-- **[EXECUTIVE_SUMMARY.md](./EXECUTIVE_SUMMARY.md)** - Overview untuk stakeholders
-
-### 🚀 Deployment
-- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Panduan deployment ke stores
-
-**Lihat [DOCUMENTATION_INDEX.md](./DOCUMENTATION_INDEX.md) untuk navigasi lengkap.**
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📄 License
 
@@ -299,5 +235,3 @@ This project is open source and available under the MIT License.
 **Dibuat dengan ❤️ untuk umat Muslim di seluruh dunia**
 
 _"Sesungguhnya bersama kesulitan ada kemudahan" - QS. Al-Insyirah: 6_
-
-# rabithahappp

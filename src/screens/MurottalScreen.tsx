@@ -60,7 +60,7 @@ export default function MurottalScreen() {
           <Card className="bg-gradient-to-br from-teal-500 to-emerald-600 text-white">
             <div className="p-6">
               <div className="text-center mb-4">
-                <Text variant="h2" className="text-white font-arabic mb-2 text-3xl">
+                <Text variant="h2" className="text-white font-uthmanic mb-2 text-4xl leading-relaxed mt-2" align="center">
                   {currentSurah.nama}
                 </Text>
                 <Text variant="h3" weight="bold" className="text-white mb-1">
@@ -165,7 +165,7 @@ export default function MurottalScreen() {
                       </Text>
                     </div>
                     <div className="flex-shrink-0">
-                      <Text variant="h3" className="text-teal-600 dark:text-teal-400 font-arabic">
+                      <Text variant="h3" className="text-teal-600 dark:text-teal-400 font-uthmanic text-2xl pt-2">
                         {surah.nama}
                       </Text>
                     </div>

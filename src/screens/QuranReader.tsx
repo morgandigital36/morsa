@@ -208,8 +208,9 @@ export function QuranReader() {
 
         <div className="container-app px-6 space-y-6">
           {selectedSurah !== 1 && selectedSurah !== 9 && (
-            <div className="text-center py-8 bg-white dark:bg-gray-800 rounded-2xl shadow-sm">
-              <Text variant="h2" className="text-4xl mb-4 font-uthmanic" align="center">
+            <div className="text-center py-8 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-teal-50 dark:border-teal-900/30 relative overflow-hidden">
+              <div className="absolute inset-0 opacity-5 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-teal-600 via-transparent to-transparent"></div>
+              <Text variant="h2" className="text-4xl mb-4 font-uthmanic text-teal-700 dark:text-teal-400 relative z-10" align="center">
                 بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
               </Text>
             </div>
@@ -220,18 +221,21 @@ export function QuranReader() {
             return (
               <div
                 key={ayah.number}
-                className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm"
+                className="bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow border border-teal-50 dark:border-teal-900/30 relative group"
               >
-                <div className="flex items-start justify-between mb-4">
-                  <span className="flex items-center justify-center w-10 h-10 bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 rounded-full text-sm font-medium">
-                    {ayah.numberInSurah}
-                  </span>
+                <div className="flex items-start justify-between mb-6">
+                  <div className="flex items-center justify-center w-12 h-12 relative">
+                    <div className="absolute inset-0 bg-teal-100 dark:bg-teal-900/40 rotate-45 rounded-xl group-hover:rotate-90 transition-transform duration-500"></div>
+                    <span className="relative z-10 text-teal-700 dark:text-teal-300 font-bold text-sm">
+                      {ayah.numberInSurah}
+                    </span>
+                  </div>
                   <button
                     onClick={() => toggleBookmark(selectedSurah, ayah.numberInSurah)}
-                    className={`p-2 rounded-lg transition-colors ${
+                    className={`p-2 rounded-full transition-all ${
                       isBookmarked
-                        ? 'text-amber-500'
-                        : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
+                        ? 'bg-amber-50 dark:bg-amber-900/30 text-amber-500'
+                        : 'text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 hover:text-gray-600 dark:hover:text-gray-300'
                     }`}
                   >
                     {isBookmarked ? <BookmarkCheck className="w-5 h-5" /> : <BookmarkIcon className="w-5 h-5" />}
@@ -240,17 +244,19 @@ export function QuranReader() {
 
                 <Text
                   variant="h2"
-                  className="leading-loose mb-4 font-uthmanic"
+                  className="mb-6 font-uthmanic text-gray-900 dark:text-gray-100"
                   align="right"
-                  style={{ fontSize: `${fontSize}px` }}
+                  style={{ fontSize: `${fontSize}px`, lineHeight: '2.4' }}
                 >
                   {ayah.text}
                 </Text>
 
                 {showTranslation && (
-                  <Text variant="body" color="secondary" className="leading-relaxed">
-                    {surahData.translation.ayahs[index]?.text}
-                  </Text>
+                  <div className="pt-4 border-t border-gray-100 dark:border-gray-700/50">
+                    <Text variant="body" color="secondary" className="leading-relaxed text-gray-600 dark:text-gray-400">
+                      {surahData.translation.ayahs[index]?.text}
+                    </Text>
+                  </div>
                 )}
               </div>
             );

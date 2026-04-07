@@ -48,29 +48,31 @@ export function DoaScreen() {
             </div>
 
             <div className="space-y-6">
-              <div>
-                <Text variant="caption" color="secondary" className="mb-3 block">
+              <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow border border-teal-50 dark:border-teal-900/30">
+                <Text variant="caption" className="mb-4 text-teal-600 dark:text-teal-400 font-medium tracking-wide uppercase block">
                   Teks Arab
                 </Text>
-                <Text className="text-2xl leading-loose text-right font-arabic">
+                <Text className="text-3xl sm:text-4xl leading-loose font-uthmanic text-gray-900 dark:text-gray-100" align="right" style={{ lineHeight: '2.4' }}>
                   {selectedDoa.arabic}
                 </Text>
               </div>
 
-              <div>
-                <Text variant="caption" color="secondary" className="mb-3 block">
+              <div className="pt-4 border-t border-gray-100 dark:border-gray-700/50">
+                <Text variant="caption" className="mb-2 text-teal-600 dark:text-teal-400 font-medium tracking-wide uppercase block">
                   Transliterasi
                 </Text>
-                <Text variant="body" className="italic">
+                <Text variant="body" className="italic text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
                   {selectedDoa.latin}
                 </Text>
               </div>
 
-              <div>
-                <Text variant="caption" color="secondary" className="mb-3 block">
+              <div className="pt-4 border-t border-gray-100 dark:border-gray-700/50">
+                <Text variant="caption" className="mb-2 text-teal-600 dark:text-teal-400 font-medium tracking-wide uppercase block">
                   Terjemahan
                 </Text>
-                <Text variant="body">"{selectedDoa.translation}"</Text>
+                <Text variant="body" className="text-gray-600 dark:text-gray-400 leading-relaxed text-lg">
+                  "{selectedDoa.translation}"
+                </Text>
               </div>
             </div>
           </Card>

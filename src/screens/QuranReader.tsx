@@ -24,6 +24,7 @@ export function QuranReader() {
   const [surahData, setSurahData] = useState<{ arabic: SurahData; translation: SurahData } | null>(null);
   const [loading, setLoading] = useState(true);
   const [showTranslation, setShowTranslation] = useState(true);
+  const [isMushafMode, setIsMushafMode] = useState(false);
   const [fontSize, setFontSize] = useState(24);
   const [searchQuery] = useState('');
   const [activeTab, setActiveTab] = useState<'surah' | 'halaman' | 'juz' | 'bookmark'>('surah');
@@ -171,10 +172,24 @@ export function QuranReader() {
                     className={`p-2 rounded-lg transition-colors ${
                       showTranslation
                         ? 'bg-teal-500 text-white'
-                        : 'neo-button'
+                        : 'neo-button text-slate-600 dark:text-slate-300'
                     }`}
                   >
                     {showTranslation ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+                  </button>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-slate-700 dark:text-slate-300">Mode Mushaf</span>
+                  <button
+                    onClick={() => setIsMushafMode(!isMushafMode)}
+                    className={`p-2 rounded-lg transition-colors font-medium text-xs ${
+                      isMushafMode
+                        ? 'bg-teal-500 text-white'
+                        : 'neo-button text-slate-600 dark:text-slate-300'
+                    }`}
+                  >
+                    {isMushafMode ? 'Aktif' : 'Nonaktif'}
                   </button>
                 </div>
               </div>
@@ -205,7 +220,7 @@ export function QuranReader() {
 
           {/* Bismillah */}
           {selectedSurah !== 1 && selectedSurah !== 9 && (
-            <div className="text-center pt-6 pb-8 border-b border-slate-200 dark:border-slate-700">
+            <div className="text-center pt-6 pb-8 border-b border-slate-200 dark:border-slate-700 mb-4">
               <p
                 className="font-uthmanic text-teal-700 dark:text-teal-300 leading-relaxed"
                 style={{ fontSize: '32px', lineHeight: '2.8' }}
@@ -215,50 +230,75 @@ export function QuranReader() {
             </div>
           )}
 
-          {/* Ayah list */}
-          {surahData.arabic.ayahs.map((ayah, index) => {
-            const isBookmarked = bookmarkedAyahs.has(`${selectedSurah}-${ayah.numberInSurah}`);
-            return (
-              <div
-                key={ayah.number}
-                className="py-6 border-b border-slate-200/70 dark:border-slate-700/50"
+          {/* Ayahs */}
+          {isMushafMode ? (
+            <div className="px-3 pb-8">
+              <p
+                className="font-uthmanic text-justify text-slate-800 dark:text-slate-100"
+                style={{ fontSize: `${fontSize}px`, lineHeight: '2.8', direction: 'rtl' }}
               >
-                {/* Ayah number + bookmark */}
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center justify-center w-9 h-9 rounded-full bg-teal-600 dark:bg-teal-700">
-                    <span className="text-white font-bold text-xs">
-                      {ayah.numberInSurah}
+                {surahData.arabic.ayahs.map((ayah) => {
+                  const arabicNumber = ayah.numberInSurah.toString().replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[parseInt(d, 10)]);
+                  return (
+                    <span key={ayah.number}>
+                      {ayah.text}{' '}
+                      <span className="inline-flex items-center justify-center text-teal-600 dark:text-teal-400 mx-1.5 text-[0.8em]">
+                        {arabicNumber}
+                      </span>{' '}
                     </span>
-                  </div>
-                  <button
-                    onClick={() => toggleBookmark(selectedSurah, ayah.numberInSurah)}
-                    className={`p-2 rounded-lg transition-all ${
-                      isBookmarked
-                        ? 'text-amber-500'
-                        : 'text-slate-400 dark:text-slate-500'
-                    }`}
+                  );
+                })}
+              </p>
+            </div>
+          ) : (
+            <div>
+              {surahData.arabic.ayahs.map((ayah, index) => {
+                const isBookmarked = bookmarkedAyahs.has(`${selectedSurah}-${ayah.numberInSurah}`);
+                const arabicNumber = ayah.numberInSurah.toString().replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[parseInt(d, 10)]);
+                
+                return (
+                  <div
+                    key={ayah.number}
+                    className="py-6 border-b border-slate-200/70 dark:border-slate-700/50"
                   >
-                    {isBookmarked ? <BookmarkCheck className="w-5 h-5" /> : <BookmarkIcon className="w-5 h-5" />}
-                  </button>
-                </div>
+                    {/* Ayah number + bookmark */}
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center justify-center w-9 h-9 rounded-full bg-teal-600 dark:bg-teal-700">
+                        <span className="text-white font-bold text-xs">
+                          {arabicNumber}
+                        </span>
+                      </div>
+                      <button
+                        onClick={() => toggleBookmark(selectedSurah, ayah.numberInSurah)}
+                        className={`p-2 rounded-lg transition-all ${
+                          isBookmarked
+                            ? 'text-amber-500'
+                            : 'text-slate-400 dark:text-slate-500'
+                        }`}
+                      >
+                        {isBookmarked ? <BookmarkCheck className="w-5 h-5" /> : <BookmarkIcon className="w-5 h-5" />}
+                      </button>
+                    </div>
 
-                {/* Arabic text */}
-                <p
-                  className="font-uthmanic text-right text-slate-800 dark:text-slate-100 mb-4 w-full"
-                  style={{ fontSize: `${fontSize}px`, lineHeight: '2.6', direction: 'rtl' }}
-                >
-                  {ayah.text}
-                </p>
+                    {/* Arabic text */}
+                    <p
+                      className="font-uthmanic text-right text-slate-800 dark:text-slate-100 mb-4 w-full"
+                      style={{ fontSize: `${fontSize}px`, lineHeight: '2.6', direction: 'rtl' }}
+                    >
+                      {ayah.text}
+                    </p>
 
-                {/* Translation */}
-                {showTranslation && (
-                  <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed italic">
-                    {surahData.translation.ayahs[index]?.text}
-                  </p>
-                )}
-              </div>
-            );
-          })}
+                    {/* Translation */}
+                    {showTranslation && (
+                      <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed italic">
+                        {surahData.translation.ayahs[index]?.text}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     );

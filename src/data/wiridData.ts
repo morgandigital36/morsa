@@ -100,15 +100,6 @@ export const wiridData: Wirid[] = [
     count: 1
   },
   {
-    id: 11,
-    title: 'Asmaul Husna - 99 Nama Allah',
-    arabic: 'هُوَ اللهُ الَّذِي لاَ إِلٰهَ إِلاَّ هُوَ الرَّحْمٰنُ الرَّحِيمُ الْمَلِكُ الْقُدُّوسُ السَّلاَمُ الْمُؤْمِنُ الْمُهَيْمِنُ الْعَزِيزُ الْجَبَّارُ الْمُتَكَبِّرُ الْخَالِقُ الْبَارِئُ الْمُصَوِّرُ الْغَفَّارُ الْقَهَّارُ الْوَهَّابُ الرَّزَّاقُ الْفَتَّاحُ الْعَلِيمُ الْقَابِضُ الْبَاسِطُ الْخَافِضُ الرَّافِعُ الْمُعِزُّ الْمُذِلُّ السَّمِيعُ الْبَصِيرُ الْحَكَمُ الْعَدْلُ اللَّطِيفُ الْخَبِيرُ الْحَلِيمُ الْعَظِيمُ الْغَفُورُ الشَّكُورُ الْعَلِيُّ الْكَبِيرُ الْحَفِيظُ الْمُقِيتُ الْحَسِيبُ الْجَلِيلُ الْكَرِيمُ الرَّقِيبُ الْمُجِيبُ الْوَاسِعُ الْحَكِيمُ الْوَدُودُ الْمَجِيدُ الْبَاعِثُ الشَّهِيدُ الْحَقُّ الْوَكِيلُ الْقَوِيُّ الْمَتِينُ الْوَلِيُّ الْحَمِيدُ الْمُحْصِي الْمُبْدِئُ الْمُعِيدُ الْمُحْيِي الْمُمِيتُ الْحَيُّ الْقَيُّومُ الْوَاجِدُ الْمَاجِدُ الْوَاحِدُ الصَّمَدُ الْقَادِرُ الْمُقْتَدِرُ الْمُقَدِّمُ الْمُؤَخِّرُ الأَوَّلُ الآخِرُ الظَّاهِرُ الْبَاطِنُ الْوَالِي الْمُتَعَالِي الْبَرُّ التَّوَّابُ الْمُنْتَقِمُ الْعَفُوُّ الرَّءُوفُ مَالِكُ الْمُلْكِ ذُو الْجَلاَلِ وَالإِكْرَامِ الْمُقْسِطُ الْجَامِعُ الْغَنِيُّ الْمُغْنِي الْمَانِعُ الضَّارُّ النَّافِعُ النُّورُ الْهَادِي الْبَدِيعُ الْبَاقِي الْوَارِثُ الرَّشِيدُ الصَّبُورُ',
-    latin: 'Huwallahul-ladzi laa ilaaha illa huwar-Rohmaanur-Rohiimul-Malikul-Quddusus-Salaamul-Mu\'minul-Muhaiminul-\'Aziizul-Jabbaarul-Mutakabbirul-Kholiqul-Baari\'ul-Mushowwirul-Ghoffaarul-Qohhaarul-Wahhaabur-Rozzaaqul-Fattaahul-\'Aliimul-Qoobishul-Baasithul-Khoofidlur-Roofi\'ul-Mu\'izzul-Mudzillus-Samii\'ul-Bashiirul-Hakamul-\'Adlul-Lathiiful-Khobirul-Haliimul-\'Azhiimul-Ghofuurusy-Syakuurul-\'Aliyyul-Kabirul-Hafhizhul-Muqiitul-Hasiibul-Jaliilul-Kariimur-Roqiibul-Mujiibul-Waasi\'ul-Hakiimul-Waduudul-Majidul-Baa\'itsus-Syahiidul-Haqqul-Wakiilul-Qowiyyul-Matiinul-Waliyyul-Hamidul-Muhshil-Mubdi\'ul-Mu\'iidul-Muhyil-Mumiitul-Hayyul-Qoyyumul-Waajidil-Maajidul-Waahidush-Shomadol-Qoodirul-Muqtodirul-Muqoddimul-Mu\'akhkhirul-Awwalul-Aakhiruz-Zhoohirul-Baathinul-Waalil-Muta\'aalil-Barrut-Tawwaabul-Muntaqimul-\'Afuwwur-Ro\'uufu Maalikul-Mulki Dzul-Jalaali wal-Ikroomil-Muqsithul-Jaami\'ul-Ghaniyyul-Mughnii-Maani\'udh-Dhoorrun-Naafi\'un-Nuurul-Haadil-Badii\'ul-Baaqil-Waaritsur-Rosyiidul-Shobuur',
-    translation: 'Dialah Allah yang tiada Tuhan selain Dia. Yang Maha Pengasih, Maha Penyayang, Maha Raja, Maha Suci, Maha Sejahtera, Maha Mengamankan, Maha Memelihara, Maha Perkasa, Maha Kuasa, Maha Memiliki Keagungan, Maha Pencipta, Maha Mengadakan, Maha Membentuk Rupa, Maha Pengampun, Maha Memaksa, Maha Pemberi, Maha Pemberi Rezeki, Maha Pembuka, Maha Mengetahui, Maha Menyempitkan, Maha Melapangkan, Maha Merendahkan, Maha Meninggikan, Maha Memuliakan, Maha Menghinakan, Maha Mendengar, Maha Melihat, Maha Hakim, Maha Adil, Maha Lembut, Maha Mengetahui Rahasia, Maha Penyantun, Maha Agung, Maha Pengampun, Maha Pembalas Budi, Maha Tinggi, Maha Besar, Maha Memelihara, Maha Memberi Kecukupan, Maha Penghisab, Maha Mulia, Maha Pemurah, Maha Mengawasi, Maha Memperkenankan, Maha Luas, Maha Bijaksana, Maha Mencintai, Maha Mulia, Maha Membangkitkan, Maha Menyaksikan, Maha Benar, Maha Memelihara, Maha Kuat, Maha Kokoh, Maha Melindungi, Maha Terpuji, Maha Menghitung, Maha Mengawali, Maha Mengembalikan, Maha Menghidupkan, Maha Mematikan, Maha Hidup, Maha Berdiri Sendiri, Maha Menemukan, Maha Mulia, Maha Esa, Maha Dibutuhkan, Maha Kuasa, Maha Berkuasa, Maha Mendahulukan, Maha Mengakhirkan, Maha Awal, Maha Akhir, Maha Zhahir, Maha Bathin, Maha Memerintah, Maha Tinggi, Maha Berbuat Baik, Maha Penerima Taubat, Maha Pemberi Balasan, Maha Pemaaf, Maha Pengasih, Penguasa Kerajaan, Yang Mempunyai Keagungan dan Kemuliaan, Maha Pemberi Keadilan, Maha Mengumpulkan, Maha Kaya, Maha Memberi Kekayaan, Maha Mencegah, Yang Memberi Mudarat, Yang Memberi Manfaat, Maha Cahaya, Maha Pemberi Petunjuk, Maha Pencipta yang Indah, Maha Kekal, Maha Pewaris, Maha Menunjuki, Maha Penyabar.',
-    category: 'Asmaul Husna',
-    count: 1
-  },
-  {
     id: 12,
     title: 'Ayat Kursi',
     arabic: 'اللَّهُ لاَ إِلَٰهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ ۚ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلاَّ بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلاَ يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلاَّ بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلاَ يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ',
@@ -164,24 +155,6 @@ export const wiridData: Wirid[] = [
   },
   {
     id: 18,
-    title: 'Ratib Al-Haddad',
-    arabic: 'بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ. اَلْحَمْدُ للهِ حَمْدًا يُوَافِى نِعَمَهُ وَيُكَافِئُ مَزِيْدَهُ. يَا رَبَّنَا لَكَ الْحَمْدُ كَمَا يَنْبَغِى لِجَلاَلِ وَجْهِكَ وَلِعَظِيْمِ سُلْطَانِكَ',
-    latin: 'Bismillahir-rohmaanir-rohiim. Alhamdulillahi hamdan yuwaafii ni\'amahu wa yukaafi\'u maziidahu. Yaa robbanaa lakal-hamdu kamaa yanbaghii lijalaali wajhika wali\'azhiimi sulthoonik',
-    translation: 'Dengan nama Allah Yang Maha Pengasih lagi Maha Penyayang. Segala puji bagi Allah dengan pujian yang sesuai dengan nikmat-nikmat-Nya dan sepadan dengan tambahan-Nya. Ya Tuhan kami, bagi-Mu segala puji sebagaimana layak bagi keagungan wajah-Mu dan kebesaran kekuasaan-Mu.',
-    category: 'Ratib',
-    count: 1
-  },
-  {
-    id: 19,
-    title: 'Hizib Nasr',
-    arabic: 'بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ. اَللّٰهُمَّ يَا نُوْرَ النُّوْرِ، يَا مُدَبِّرَ الْاُمُوْرِ، يَا بَاعِثَ مَنْ فِى الْقُبُوْرِ، اَنْتَ اللهُ لاَ إِلٰهَ إِلاَّ اَنْتَ',
-    latin: 'Bismillahir-rohmaanir-rohiim. Allahumma yaa nuuron-nuur, yaa mudabbirol-umuur, yaa baa\'itsa man fil-quubuur, antal-laahu laa ilaaha illaa anta',
-    translation: 'Dengan nama Allah Yang Maha Pengasih lagi Maha Penyayang. Ya Allah wahai Cahaya segala cahaya, wahai Pengatur segala urusan, wahai Pembangkit siapa yang ada di dalam kubur, Engkau adalah Allah tiada Tuhan selain Engkau.',
-    category: 'Hizib',
-    count: 1
-  },
-  {
-    id: 20,
     title: 'Istighotsah',
     arabic: 'يَا اَللهُ يَا رَحْمٰنُ يَا رَحِيْمُ يَا ذَا الْجَلاَلِ وَاْلاِكْرَامِ، اَغِثْنَا اَغِثْنَا اَغِثْنَا، خَلِّصْنَا، اُنْصُرْنَا، اِرْحَمْنَا، اِرْحَمْنَا، اِرْحَمْنَا يَا اَرْحَمَ الرَّاحِمِيْنَ',
     latin: 'Yaa Allaahu yaa Rohmaanu yaa Rohiimu yaa Dzal-Jalaali wal-Ikroom, aghitsnaa aghitsnaa aghitsnaa, khollishnaa, unsurnaa, irhamnaa, irhamnaa, irhamnaa yaa arhamar-roohimiin',
@@ -194,12 +167,7 @@ export const wiridData: Wirid[] = [
 export const wiridCategories = [
   'Wirid Harian',
   'Shalawat',
-  'Asmaul Husna',
   'Istighotsah & Mujahadah',
-  'Ratib',
-  'Hizib',
-  'Manaqib Syekh Abdul Qadir',
-  'Dalailul Khairat'
 ];
 
 export const defaultWiridPresets: Wirid[] = [

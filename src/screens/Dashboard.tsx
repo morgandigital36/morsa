@@ -113,18 +113,18 @@ export function Dashboard() {
         </div>
 
         {/* Prayer Times Row */}
-        <div className="bg-white/10 rounded-2xl px-4 py-4 mt-2">
-          <div className="grid grid-cols-6 gap-1">
+        <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-3 py-4 mt-2 border border-white/20 shadow-inner">
+          <div className="grid grid-cols-6 gap-1.5">
             {allPrayers.slice(0, 6).map((prayer, idx) => {
               const getPrayerIcon = (name: string) => {
                 switch(name) {
-                  case 'Subuh':   return <Sunrise className="w-4 h-4" />;
-                  case 'Terbit':  return <Sun className="w-4 h-4" />;
-                  case 'Dzuhur': return <Sun className="w-4 h-4" />;
-                  case 'Ashar':  return <CloudSun className="w-4 h-4" />;
-                  case 'Maghrib':return <Sunset className="w-4 h-4" />;
-                  case 'Isya':   return <Moon className="w-4 h-4" />;
-                  default:       return <Clock className="w-4 h-4" />;
+                  case 'Subuh':   return <Sunrise className="w-5 h-5 mx-auto mb-1" />;
+                  case 'Terbit':  return <Sun className="w-5 h-5 mx-auto mb-1" />;
+                  case 'Dzuhur': return <Sun className="w-5 h-5 mx-auto mb-1" />;
+                  case 'Ashar':  return <CloudSun className="w-5 h-5 mx-auto mb-1" />;
+                  case 'Maghrib':return <Sunset className="w-5 h-5 mx-auto mb-1" />;
+                  case 'Isya':   return <Moon className="w-5 h-5 mx-auto mb-1" />;
+                  default:       return <Clock className="w-5 h-5 mx-auto mb-1" />;
                 }
               };
 
@@ -133,19 +133,19 @@ export function Dashboard() {
               return (
                 <div
                   key={idx}
-                  className={`flex flex-col items-center gap-1 py-2 rounded-xl transition-all ${
+                  className={`flex flex-col items-center justify-center py-2.5 rounded-2xl transition-all duration-300 ${
                     isNext
-                      ? 'bg-white/25 ring-1 ring-white/40'
+                      ? 'bg-white/30 border border-white/40 shadow-md backdrop-blur-md scale-105 transform z-10'
                       : ''
                   }`}
                 >
-                  <div className={prayer.isPassed ? 'text-white/30' : 'text-teal-200'}>
+                  <div className={prayer.isPassed ? 'text-white/40' : (isNext ? 'text-white' : 'text-teal-200')}>
                     {getPrayerIcon(prayer.name)}
                   </div>
-                  <span className={`text-[9px] font-medium leading-none ${prayer.isPassed ? 'text-white/30' : 'text-teal-100'}`}>
+                  <span className={`text-[10px] font-medium leading-tight ${prayer.isPassed ? 'text-white/40' : (isNext ? 'text-white' : 'text-teal-100')}`}>
                     {prayer.name}
                   </span>
-                  <span className={`text-[11px] font-bold leading-none ${prayer.isPassed ? 'text-white/30' : 'text-white'}`}>
+                  <span className={`text-xs font-bold leading-tight ${prayer.isPassed ? 'text-white/40' : 'text-white'}`}>
                     {prayer.time}
                   </span>
                 </div>

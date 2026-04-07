@@ -56,13 +56,26 @@ export function SettingsScreen() {
   };
 
   const handleToggleNotifications = async () => {
+    const unlockAudioAndEnable = () => {
+      // Unlock Audio API for mobile browsers
+      import('../services/notification.service').then(({ notificationService }) => {
+        notificationService.playAdzan();
+        setTimeout(() => notificationService.stopAdzan(), 500);
+      });
+      toggleNotifications(true);
+    };
+
     if (notificationPermission !== 'granted') {
       const granted = await requestNotificationPermission();
       if (granted) {
-        toggleNotifications(true);
+        unlockAudioAndEnable();
       }
     } else {
-      toggleNotifications(!notificationsEnabled);
+      if (!notificationsEnabled) {
+        unlockAudioAndEnable();
+      } else {
+        toggleNotifications(false);
+      }
     }
   };
 

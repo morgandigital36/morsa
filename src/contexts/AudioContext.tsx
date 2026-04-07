@@ -12,6 +12,7 @@ interface AudioContextType {
   playPrevious: () => void;
   handleSeek: (time: number) => void;
   setSurahs: (surahs: MurottalSurah[]) => void;
+  closePlayer: () => void;
   surahs: MurottalSurah[];
 }
 
@@ -113,6 +114,17 @@ export const AudioProvider = ({ children }: AudioProviderProps) => {
     setCurrentTime(time);
   };
 
+  const closePlayer = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.src = '';
+    }
+    setIsPlaying(false);
+    setCurrentTime(0);
+    setDuration(0);
+    setCurrentSurah(null);
+  };
+
   return (
     <AudioContext.Provider
       value={{
@@ -126,6 +138,7 @@ export const AudioProvider = ({ children }: AudioProviderProps) => {
         playPrevious,
         handleSeek,
         setSurahs,
+        closePlayer,
         surahs,
       }}
     >

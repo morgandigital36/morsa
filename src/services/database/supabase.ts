@@ -14,7 +14,7 @@ const localStorageDB = {
     const data = localStorage.getItem(key);
     return data ? JSON.parse(data) : null;
   },
-  set(key: string, value: any) {
+  set(key: string, value: unknown) {
     localStorage.setItem(key, JSON.stringify(value));
   },
   remove(key: string) {
@@ -24,7 +24,7 @@ const localStorageDB = {
     const data = this.get(key);
     return Array.isArray(data) ? data : [];
   },
-  addToArray(key: string, item: any) {
+  addToArray(key: string, item: Record<string, unknown>) {
     const arr = this.getArray(key);
     const newItem = { ...item, id: Date.now().toString() };
     arr.push(newItem);
@@ -33,7 +33,7 @@ const localStorageDB = {
   },
   removeFromArray(key: string, id: string) {
     const arr = this.getArray(key);
-    const filtered = arr.filter((item: any) => item.id !== id);
+    const filtered = arr.filter((item: Record<string, unknown>) => item.id !== id);
     this.set(key, filtered);
   },
 };
@@ -82,7 +82,7 @@ export const db = {
       if (error) console.error(error);
       return data;
     },
-    async upsert(locationId: string, prayerTimes: any) {
+    async upsert(locationId: string, prayerTimes: Record<string, unknown>) {
       if (!hasSupabase) {
         const key = `prayer_${locationId}_${prayerTimes.date}`;
         localStorageDB.set(key, { location_id: locationId, ...prayerTimes });
@@ -110,7 +110,7 @@ export const db = {
       if (error) console.error(error);
       return data;
     },
-    async update(userId: string, progress: any) {
+    async update(userId: string, progress: Record<string, unknown>) {
       if (!hasSupabase) {
         const existing = localStorageDB.get(`quran_progress_${userId}`) || {};
         const updated = { user_id: userId, ...existing, ...progress };
@@ -138,7 +138,7 @@ export const db = {
       if (error) console.error(error);
       return data || [];
     },
-    async add(userId: string, bookmark: any) {
+    async add(userId: string, bookmark: Record<string, unknown>) {
       if (!hasSupabase) {
         return localStorageDB.addToArray(`quran_bookmarks_${userId}`, {
           user_id: userId,
@@ -175,7 +175,7 @@ export const db = {
       if (error) console.error(error);
       return data || [];
     },
-    async create(userId: string, preset: any) {
+    async create(userId: string, preset: Record<string, unknown>) {
       if (!hasSupabase) {
         return localStorageDB.addToArray(`dhikr_presets_${userId}`, {
           user_id: userId,
@@ -214,7 +214,7 @@ export const db = {
       if (error) console.error(error);
       return data || [];
     },
-    async add(userId: string, session: any) {
+    async add(userId: string, session: Record<string, unknown>) {
       if (!hasSupabase) {
         return localStorageDB.addToArray(`dhikr_sessions_${userId}`, {
           user_id: userId,

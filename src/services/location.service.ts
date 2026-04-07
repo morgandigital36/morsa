@@ -24,6 +24,7 @@ class LocationService {
       locationData.city = city;
 
       localStorage.setItem('userLocation', JSON.stringify(locationData));
+      window.dispatchEvent(new Event('locationUpdated'));
       return locationData;
     } catch (error) {
       console.error('Error getting location:', error);
@@ -63,6 +64,7 @@ class LocationService {
 
   clearSavedLocation() {
     localStorage.removeItem('userLocation');
+    window.dispatchEvent(new Event('locationUpdated'));
   }
 }
 

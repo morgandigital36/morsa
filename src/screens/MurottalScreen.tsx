@@ -24,6 +24,7 @@ export default function MurottalScreen() {
 
   useEffect(() => {
     loadSurahs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadSurahs = async () => {

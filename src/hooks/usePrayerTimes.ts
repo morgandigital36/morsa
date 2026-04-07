@@ -1,30 +1,56 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { prayerService, PrayerTimesData } from '../services/api/prayer.service';
 import { notificationService } from '../services/notification.service';
 import { locationService } from '../services/location.service';
 
+interface NextPrayer {
+  name: string;
+  time: string;
+  countdown: string;
+}
+
 export function usePrayerTimes() {
   const [prayerTimes, setPrayerTimes] = useState<PrayerTimesData | null>(null);
-  const [nextPrayer, setNextPrayer] = useState<any>(null);
+  const prayerTimesRef = useRef<PrayerTimesData | null>(null);
+  const [nextPrayer, setNextPrayer] = useState<NextPrayer | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
 
   useEffect(() => {
     fetchPrayerTimes();
+    
+    // Update next prayer countdown every second
     const interval = setInterval(() => {
-      if (prayerTimes) updateNextPrayer(prayerTimes);
+      if (prayerTimesRef.current) updateNextPrayer(prayerTimesRef.current);
     }, 1000);
 
     const notifEnabled = localStorage.getItem('notificationsEnabled') === 'true';
     setNotificationsEnabled(notifEnabled);
 
-    return () => clearInterval(interval);
+    // Listen to location updates
+    const handleLocationUpdate = () => {
+      fetchPrayerTimes();
+    };
+    window.addEventListener('locationUpdated', handleLocationUpdate);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('locationUpdated', handleLocationUpdate);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (prayerTimes && notificationsEnabled && notificationService.isNotificationEnabled()) {
-      notificationService.scheduleNotifications(prayerTimes);
+      const prayerRecord: Record<string, string> = {
+        fajr: prayerTimes.fajr,
+        dhuhr: prayerTimes.dhuhr,
+        asr: prayerTimes.asr,
+        maghrib: prayerTimes.maghrib,
+        isha: prayerTimes.isha,
+      };
+      notificationService.scheduleNotifications(prayerRecord);
     }
     return () => {
       notificationService.clearScheduledNotifications();
@@ -36,7 +62,10 @@ export function usePrayerTimes() {
       setLoading(true);
       setError(null);
 
-      const location = await locationService.getCurrentLocation();
+      let location = locationService.getSavedLocation();
+      if (!location) {
+        location = await locationService.getCurrentLocation();
+      }
 
       if (location && location.latitude && location.longitude) {
         const times = await prayerService.getPrayerTimesByCoordinates(
@@ -44,10 +73,12 @@ export function usePrayerTimes() {
           location.longitude
         );
         setPrayerTimes(times);
+        prayerTimesRef.current = times;
         updateNextPrayer(times);
       } else {
         const times = await prayerService.getPrayerTimesByCityId('1301');
         setPrayerTimes(times);
+        prayerTimesRef.current = times;
         updateNextPrayer(times);
       }
     } catch (err) {
@@ -56,6 +87,7 @@ export function usePrayerTimes() {
       try {
         const times = await prayerService.getPrayerTimesByCityId('1301');
         setPrayerTimes(times);
+        prayerTimesRef.current = times;
         updateNextPrayer(times);
       } catch (fallbackErr) {
         console.error('Fallback also failed:', fallbackErr);

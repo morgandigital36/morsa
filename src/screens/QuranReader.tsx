@@ -6,12 +6,10 @@ import { Text } from '../components/atoms/Text';
 import { BottomNav } from '../components/organisms/BottomNav';
 import {
   ChevronLeft,
-  ChevronDown,
   Search,
   Settings,
   Bookmark as BookmarkIcon,
   BookmarkCheck,
-  Home,
   ZoomIn,
   ZoomOut,
   Eye,
@@ -27,7 +25,7 @@ export function QuranReader() {
   const [loading, setLoading] = useState(true);
   const [showTranslation, setShowTranslation] = useState(true);
   const [fontSize, setFontSize] = useState(24);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery] = useState('');
   const [activeTab, setActiveTab] = useState<'surah' | 'halaman' | 'juz' | 'bookmark'>('surah');
   const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
   const [bookmarkedAyahs, setBookmarkedAyahs] = useState<Set<string>>(new Set());
@@ -124,62 +122,59 @@ export function QuranReader() {
     const currentSurah = surahs.find((s) => s.number === selectedSurah);
 
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-24">
-        <div className="bg-white dark:bg-gray-800 sticky top-0 z-10 border-b border-gray-200 dark:border-gray-700">
-          <div className="container-app px-6 py-4">
+      <div className="min-h-screen bg-slate-100 dark:bg-slate-900 pb-24">
+
+        {/* ── Sticky Navbar ── */}
+        <div className="bg-slate-100/90 dark:bg-slate-900/90 sticky top-0 z-10 backdrop-blur-md border-b border-slate-200 dark:border-slate-700">
+          <div className="px-4 py-3">
             <div className="flex items-center justify-between">
               <button
                 onClick={() => setSelectedSurah(null)}
-                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                className="p-2 neo-button rounded-xl transition-all active:neo-pressed"
               >
-                <ChevronLeft className="w-6 h-6" />
+                <ChevronLeft className="w-5 h-5 text-slate-600 dark:text-slate-300" />
               </button>
 
-              <div className="flex items-center gap-2">
-                <Text variant="h3" weight="bold">
-                  {selectedSurah}. {currentSurah?.name}
-                </Text>
+              <div className="text-center">
+                <h1 className="font-bold text-slate-800 dark:text-slate-100 text-base">
+                  {selectedSurah}. {currentSurah?.englishName}
+                </h1>
               </div>
 
               <button
                 onClick={() => setShowSettings(!showSettings)}
-                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-                <Settings className="w-6 h-6" />
+                className="p-2 neo-button rounded-xl transition-all active:neo-pressed"
+              >
+                <Settings className="w-5 h-5 text-slate-600 dark:text-slate-300" />
               </button>
             </div>
 
             {showSettings && (
-              <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-900 rounded-lg space-y-3">
+              <div className="mt-3 p-3 neo-pressed rounded-xl space-y-3">
                 <div className="flex items-center justify-between">
-                  <Text variant="body">Ukuran Teks</Text>
+                  <span className="text-sm text-slate-700 dark:text-slate-300">Ukuran Teks Arab</span>
                   <div className="flex items-center gap-2">
-                    <button
-                      onClick={decreaseFontSize}
-                      className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg"
-                    >
-                      <ZoomOut className="w-5 h-5" />
+                    <button onClick={decreaseFontSize} className="p-2 neo-button rounded-lg active:neo-pressed">
+                      <ZoomOut className="w-4 h-4" />
                     </button>
-                    <span className="text-sm w-12 text-center">{fontSize}px</span>
-                    <button
-                      onClick={increaseFontSize}
-                      className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg"
-                    >
-                      <ZoomIn className="w-5 h-5" />
+                    <span className="text-sm w-10 text-center font-mono">{fontSize}px</span>
+                    <button onClick={increaseFontSize} className="p-2 neo-button rounded-lg active:neo-pressed">
+                      <ZoomIn className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <Text variant="body">Tampilkan Terjemahan</Text>
+                  <span className="text-sm text-slate-700 dark:text-slate-300">Tampilkan Terjemahan</span>
                   <button
                     onClick={() => setShowTranslation(!showTranslation)}
                     className={`p-2 rounded-lg transition-colors ${
                       showTranslation
-                        ? 'bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400'
-                        : 'bg-gray-200 dark:bg-gray-700'
+                        ? 'bg-teal-500 text-white'
+                        : 'neo-button'
                     }`}
                   >
-                    {showTranslation ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
+                    {showTranslation ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
                   </button>
                 </div>
               </div>
@@ -187,76 +182,79 @@ export function QuranReader() {
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-teal-600 to-teal-700 dark:from-teal-800 dark:to-teal-900 text-white px-6 py-8 mb-6">
-          <div className="text-center">
-            <Text variant="caption" className="text-white/80 mb-2">
-              Surah: {currentSurah?.name}
-            </Text>
-            <Text variant="h2" className="text-white mb-1 font-uthmanic text-3xl">
-              {currentSurah?.name}
-            </Text>
-            <Text variant="caption" className="text-white/80 mb-4">
-              {currentSurah?.englishNameTranslation}
-            </Text>
-            <div className="flex justify-center gap-6 text-sm">
-              <span>{currentSurah?.numberOfAyahs} Ayat</span>
-              <span>•</span>
-              <span>{getRevelationType(currentSurah?.revelationType || '')}</span>
-            </div>
+        {/* ── Surah Hero Header ── Full-width gradient */}
+        <div className="bg-gradient-to-br from-teal-600 via-teal-700 to-emerald-800 w-full px-6 pt-8 pb-10 text-center">
+          <h2 className="font-uthmanic text-white text-5xl leading-relaxed mb-3">
+            {currentSurah?.name}
+          </h2>
+          <p className="text-teal-100 font-semibold text-lg mb-1">
+            {currentSurah?.englishName} — {currentSurah?.englishNameTranslation}
+          </p>
+          <div className="flex justify-center items-center gap-3 mt-2">
+            <span className="text-teal-200 text-sm bg-white/15 px-3 py-1 rounded-full">
+              {currentSurah?.numberOfAyahs} Ayat
+            </span>
+            <span className="text-teal-200 text-sm bg-white/15 px-3 py-1 rounded-full">
+              {getRevelationType(currentSurah?.revelationType || '')}
+            </span>
           </div>
         </div>
 
-        <div className="container-app px-6 space-y-6">
+        {/* ── Ayahs ── No card wrapper */}
+        <div className="px-5 py-4 space-y-0">
+
+          {/* Bismillah */}
           {selectedSurah !== 1 && selectedSurah !== 9 && (
-            <div className="text-center py-8 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-teal-50 dark:border-teal-900/30 relative overflow-hidden">
-              <div className="absolute inset-0 opacity-5 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-teal-600 via-transparent to-transparent"></div>
-              <Text variant="h2" className="text-4xl mb-4 font-uthmanic text-teal-700 dark:text-teal-400 relative z-10" align="center">
+            <div className="text-center pt-6 pb-8 border-b border-slate-200 dark:border-slate-700">
+              <p
+                className="font-uthmanic text-teal-700 dark:text-teal-300 leading-relaxed"
+                style={{ fontSize: '32px', lineHeight: '2.8' }}
+              >
                 بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
-              </Text>
+              </p>
             </div>
           )}
 
+          {/* Ayah list */}
           {surahData.arabic.ayahs.map((ayah, index) => {
             const isBookmarked = bookmarkedAyahs.has(`${selectedSurah}-${ayah.numberInSurah}`);
             return (
               <div
                 key={ayah.number}
-                className="bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow border border-teal-50 dark:border-teal-900/30 relative group"
+                className="py-6 border-b border-slate-200/70 dark:border-slate-700/50"
               >
-                <div className="flex items-start justify-between mb-6">
-                  <div className="flex items-center justify-center w-12 h-12 relative">
-                    <div className="absolute inset-0 bg-teal-100 dark:bg-teal-900/40 rotate-45 rounded-xl group-hover:rotate-90 transition-transform duration-500"></div>
-                    <span className="relative z-10 text-teal-700 dark:text-teal-300 font-bold text-sm">
+                {/* Ayah number + bookmark */}
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center justify-center w-9 h-9 rounded-full bg-teal-600 dark:bg-teal-700">
+                    <span className="text-white font-bold text-xs">
                       {ayah.numberInSurah}
                     </span>
                   </div>
                   <button
                     onClick={() => toggleBookmark(selectedSurah, ayah.numberInSurah)}
-                    className={`p-2 rounded-full transition-all ${
+                    className={`p-2 rounded-lg transition-all ${
                       isBookmarked
-                        ? 'bg-amber-50 dark:bg-amber-900/30 text-amber-500'
-                        : 'text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 hover:text-gray-600 dark:hover:text-gray-300'
+                        ? 'text-amber-500'
+                        : 'text-slate-400 dark:text-slate-500'
                     }`}
                   >
                     {isBookmarked ? <BookmarkCheck className="w-5 h-5" /> : <BookmarkIcon className="w-5 h-5" />}
                   </button>
                 </div>
 
-                <Text
-                  variant="h2"
-                  className="mb-6 font-uthmanic text-gray-900 dark:text-gray-100"
-                  align="right"
-                  style={{ fontSize: `${fontSize}px`, lineHeight: '2.4' }}
+                {/* Arabic text */}
+                <p
+                  className="font-uthmanic text-right text-slate-800 dark:text-slate-100 mb-4 w-full"
+                  style={{ fontSize: `${fontSize}px`, lineHeight: '2.6', direction: 'rtl' }}
                 >
                   {ayah.text}
-                </Text>
+                </p>
 
+                {/* Translation */}
                 {showTranslation && (
-                  <div className="pt-4 border-t border-gray-100 dark:border-gray-700/50">
-                    <Text variant="body" color="secondary" className="leading-relaxed text-gray-600 dark:text-gray-400">
-                      {surahData.translation.ayahs[index]?.text}
-                    </Text>
-                  </div>
+                  <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed italic">
+                    {surahData.translation.ayahs[index]?.text}
+                  </p>
                 )}
               </div>
             );
@@ -267,8 +265,8 @@ export function QuranReader() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-24">
-      <div className="bg-white dark:bg-gray-800 sticky top-0 z-10 border-b border-gray-200 dark:border-gray-700">
+    <div className="min-h-screen bg-slate-100 dark:bg-slate-900 pb-24">
+      <div className="neo-card rounded-b-lg mb-4 sticky top-0 z-10 opacity-95">
         <div className="container-app px-6 py-4">
           <div className="flex items-center justify-between mb-4">
             <button
@@ -329,7 +327,7 @@ export function QuranReader() {
                   <button
                     key={bookmark.id}
                     onClick={() => setSelectedSurah(bookmark.surah_number)}
-                    className="w-full bg-white dark:bg-gray-800 rounded-2xl p-4 hover:shadow-md transition-shadow flex items-center gap-4 text-left"
+                    className="w-full neo-button rounded-2xl p-4 transition-all flex items-center gap-4 text-left active:neo-pressed"
                   >
                     <div className="flex-shrink-0 w-12 h-12 bg-amber-100 dark:bg-amber-900/30 rounded-full flex items-center justify-center">
                       <BookmarkCheck className="w-6 h-6 text-amber-600 dark:text-amber-400" />
@@ -354,7 +352,7 @@ export function QuranReader() {
               <button
                 key={surah.number}
                 onClick={() => setSelectedSurah(surah.number)}
-                className="w-full bg-white dark:bg-gray-800 rounded-2xl p-4 hover:shadow-md transition-shadow flex items-center gap-4 text-left"
+                className="w-full neo-button rounded-2xl p-4 transition-all flex items-center gap-4 text-left active:neo-pressed"
               >
                 <div className="flex-shrink-0 w-12 h-12 bg-teal-100 dark:bg-teal-900/30 rounded-full flex items-center justify-center">
                   <Text variant="body" weight="bold" className="text-teal-600 dark:text-teal-400">

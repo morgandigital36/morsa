@@ -30,7 +30,7 @@ export function PermissionProvider({ children }: { children: ReactNode }) {
         locationStatus.onchange = () => {
           setLocationPermission(locationStatus.state);
         };
-      } catch (error) {
+      } catch {
         console.log('Permission query not supported');
       }
     }
@@ -48,16 +48,44 @@ export function PermissionProvider({ children }: { children: ReactNode }) {
   const requestLocationPermission = async (): Promise<boolean> => {
     try {
       const result = await new Promise<GeolocationPosition>((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject);
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0,
+        });
       });
 
       setLocationPermission('granted');
-      localStorage.setItem('userLocation', JSON.stringify({
-        latitude: result.coords.latitude,
-        longitude: result.coords.longitude
-      }));
+
+      // Reverse geocode to get city name
+      let city = 'Indonesia';
+      try {
+        const res = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?lat=${result.coords.latitude}&lon=${result.coords.longitude}&format=json`,
+          { headers: { 'User-Agent': 'RabithahApp/1.0' } }
+        );
+        const data = await res.json();
+        city =
+          data.address?.city ||
+          data.address?.town ||
+          data.address?.village ||
+          data.address?.state ||
+          'Indonesia';
+      } catch {
+        // Geocode failed silently — use default city
+      }
+
+      localStorage.setItem(
+        'userLocation',
+        JSON.stringify({
+          latitude: result.coords.latitude,
+          longitude: result.coords.longitude,
+          city,
+        })
+      );
+      window.dispatchEvent(new Event('locationUpdated'));
       return true;
-    } catch (error) {
+    } catch {
       setLocationPermission('denied');
       return false;
     }
@@ -72,7 +100,7 @@ export function PermissionProvider({ children }: { children: ReactNode }) {
       const permission = await Notification.requestPermission();
       setNotificationPermission(permission);
       return permission === 'granted';
-    } catch (error) {
+    } catch {
       return false;
     }
   };

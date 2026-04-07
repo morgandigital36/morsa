@@ -22,10 +22,9 @@ export function DhikrCounter() {
   const [count, setCount] = useState(0);
   const [target, setTarget] = useState(33);
   const [loading, setLoading] = useState(true);
-  const [showAddModal, setShowAddModal] = useState(false);
 
   useEffect(() => {
-    setPresets(defaultDhikrPresets as any);
+    setPresets(defaultDhikrPresets.map((p, i) => ({ ...p, id: `preset-${i}` })));
     setLoading(false);
   }, []);
 
@@ -60,7 +59,7 @@ export function DhikrCounter() {
 
   if (!selectedPreset) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-8">
+      <div className="min-h-screen bg-slate-100 dark:bg-slate-900 py-8 pb-24">
         <div className="container-app space-y-6">
           <div className="flex items-center justify-between">
             <div>
@@ -88,7 +87,7 @@ export function DhikrCounter() {
 
                 <div className="space-y-3">
                   {preset.arabic_text && (
-                    <Text variant="arabic" align="center" className="text-2xl">
+                    <Text variant="arabic" align="center" className="text-3xl font-uthmanic">
                       {preset.arabic_text}
                     </Text>
                   )}
@@ -113,12 +112,13 @@ export function DhikrCounter() {
             ))}
           </div>
         </div>
+        <BottomNav />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-8">
+    <div className="min-h-screen bg-slate-100 dark:bg-slate-900 py-8">
       <div className="container-app max-w-2xl space-y-8">
         <div className="flex items-center justify-between">
           <Button variant="ghost" onClick={() => setSelectedPreset(null)}>
@@ -128,7 +128,7 @@ export function DhikrCounter() {
 
         <Card padding="lg" className="text-center space-y-6">
           {selectedPreset.arabic_text && (
-            <Text variant="arabic" align="center" className="text-4xl md:text-5xl leading-relaxed">
+            <Text variant="arabic" align="center" className="text-5xl md:text-6xl font-uthmanic leading-relaxed">
               {selectedPreset.arabic_text}
             </Text>
           )}
@@ -146,7 +146,7 @@ export function DhikrCounter() {
 
             {selectedPreset.translation && (
               <Text variant="caption" color="secondary" className="mt-1 italic">
-                "{selectedPreset.translation}"
+                {selectedPreset.translation}
               </Text>
             )}
           </div>
@@ -157,8 +157,8 @@ export function DhikrCounter() {
             <div
               className={`text-9xl font-bold transition-all duration-300 ${
                 isComplete
-                  ? 'text-accent-green scale-110'
-                  : 'text-primary-main dark:text-primary-light'
+                  ? 'text-emerald-600 scale-110'
+                  : 'text-teal-600 dark:text-teal-400'
               }`}
             >
               {count}
@@ -169,10 +169,10 @@ export function DhikrCounter() {
         </div>
 
         <div className="space-y-4">
-          <div className="relative w-full h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+          <div className="relative w-full h-3 neo-pressed rounded-full overflow-hidden">
             <div
               className={`absolute top-0 left-0 h-full transition-all duration-300 ${
-                isComplete ? 'bg-accent-green' : 'bg-primary-main'
+                isComplete ? 'bg-emerald-500' : 'bg-teal-500'
               }`}
               style={{ width: `${Math.min(progress, 100)}%` }}
             ></div>
@@ -190,7 +190,7 @@ export function DhikrCounter() {
 
         <button
           onClick={increment}
-          className="w-full h-32 rounded-2xl bg-gradient-to-br from-primary-main to-primary-dark text-white text-2xl font-bold shadow-2xl hover:shadow-3xl transform hover:scale-105 active:scale-95 transition-all duration-200"
+          className="w-full h-32 rounded-2xl neo-button flex items-center justify-center text-teal-600 dark:text-teal-400 text-3xl font-bold active:neo-pressed transition-all duration-200"
         >
           KETUK
         </button>
@@ -210,7 +210,7 @@ export function DhikrCounter() {
             type="number"
             value={target}
             onChange={(e) => setTarget(parseInt(e.target.value) || 33)}
-            className="w-32 px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600"
+            className="w-32 px-4 py-2 rounded-lg bg-slate-200 dark:bg-slate-800 neo-pressed border-none text-gray-900 dark:text-gray-100 outline-none focus:ring-1 focus:ring-teal-500"
             placeholder="Target"
             min="1"
           />

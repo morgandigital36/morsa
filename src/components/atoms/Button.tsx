@@ -22,20 +22,20 @@ export function Button({
   ...props
 }: ButtonProps) {
   const variants = {
-    primary: 'bg-primary-main hover:bg-primary-dark text-white shadow-md hover:shadow-lg',
-    secondary: 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 dark:text-white',
-    ghost: 'bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 text-primary-main',
+    primary: 'neo-button text-primary-main dark:text-primary-light font-bold active:neo-pressed',
+    secondary: 'neo-button text-slate-600 dark:text-slate-300 active:neo-pressed',
+    ghost: 'bg-transparent transition-colors hover:bg-slate-300 dark:hover:bg-slate-700 text-primary-main dark:text-white',
   };
 
   const sizes = {
-    small: 'px-3 py-1.5 text-sm rounded',
+    small: 'px-3 py-1.5 text-sm rounded-md',
     medium: 'px-4 py-2 text-base rounded-lg',
-    large: 'px-6 py-3 text-lg rounded-lg',
+    large: 'px-6 py-3 text-lg rounded-xl',
   };
 
   return (
     <button
-      className={`inline-flex items-center justify-center font-medium transition-all duration-200 disabled:opacity-50 ${variants[variant]} ${sizes[size]} ${fullWidth ? 'w-full' : ''} ${className}`}
+      className={`inline-flex items-center justify-center transition-all duration-200 outline-none disabled:opacity-50 disabled:cursor-not-allowed ${variants[variant]} ${sizes[size]} ${fullWidth ? 'w-full' : ''} ${className}`}
       disabled={disabled || loading}
       {...props}
     >

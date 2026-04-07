@@ -16,9 +16,9 @@ export function Card({
   ...props
 }: CardProps) {
   const variants = {
-    default: 'bg-white dark:bg-gray-800',
-    primary: 'bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-800',
-    accent: 'bg-green-50 dark:bg-green-900/20 border-2 border-green-200 dark:border-green-800',
+    default: 'neo-card border border-slate-100 dark:border-slate-700/50',
+    primary: 'neo-card border border-primary-light dark:border-primary-main/50',
+    accent: 'neo-card border border-accent-green dark:border-green-800/50',
   };
 
   const paddings = {
@@ -29,7 +29,7 @@ export function Card({
 
   return (
     <div
-      className={`rounded-lg shadow-md transition-all duration-200 ${variants[variant]} ${paddings[padding]} ${hoverable ? 'hover:shadow-lg hover:-translate-y-1 cursor-pointer' : ''} ${className}`}
+      className={`rounded-lg transition-all duration-200 ${variants[variant]} ${paddings[padding]} ${hoverable ? 'hover:-translate-y-1 cursor-pointer' : ''} ${className}`}
       {...props}
     >
       {children}

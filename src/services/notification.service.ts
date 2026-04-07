@@ -30,7 +30,6 @@ class NotificationService {
       badge: '/icon-192x192.png',
       tag: `adzan-${prayerName}`,
       requireInteraction: true,
-      vibrate: [200, 100, 200],
     });
 
     this.playAdzan();

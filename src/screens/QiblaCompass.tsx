@@ -2,7 +2,13 @@ import { useState, useEffect } from 'react';
 import { Card } from '../components/atoms/Card';
 import { Text } from '../components/atoms/Text';
 import { Button } from '../components/atoms/Button';
-import { Compass, MapPin, Navigation } from 'lucide-react';
+import { MapPin, Navigation } from 'lucide-react';
+import { BottomNav } from '../components/organisms/BottomNav';
+
+// Extend DeviceOrientationEvent for Safari
+interface DeviceOrientationEventExtended extends DeviceOrientationEvent {
+  webkitCompassHeading?: number;
+}
 
 const KAABA_LAT = 21.4225;
 const KAABA_LNG = 39.8262;
@@ -34,6 +40,7 @@ export function QiblaCompass() {
     return () => {
       stopCompass();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [permission]);
 
   const checkPermission = async () => {
@@ -71,7 +78,7 @@ export function QiblaCompass() {
     if ('DeviceOrientationEvent' in window) {
       window.addEventListener('deviceorientation', handleOrientation);
     } else if ('ondeviceorientationabsolute' in window) {
-      window.addEventListener('deviceorientationabsolute', handleOrientation as any);
+      (window as Window).addEventListener('deviceorientationabsolute' as keyof WindowEventMap, handleOrientation as EventListener);
     } else {
       setError('Browser tidak mendukung kompas');
     }
@@ -79,15 +86,16 @@ export function QiblaCompass() {
 
   const stopCompass = () => {
     window.removeEventListener('deviceorientation', handleOrientation);
-    window.removeEventListener('deviceorientationabsolute', handleOrientation as any);
+    (window as Window).removeEventListener('deviceorientationabsolute' as keyof WindowEventMap, handleOrientation as EventListener);
   };
 
   const handleOrientation = (event: DeviceOrientationEvent) => {
-    let alpha = event.alpha;
+    const extEvent = event as DeviceOrientationEventExtended;
+    let alpha = extEvent.alpha;
 
-    if (alpha !== null) {
-      if (event.webkitCompassHeading) {
-        alpha = event.webkitCompassHeading;
+    if (alpha !== null && alpha !== undefined) {
+      if (extEvent.webkitCompassHeading) {
+        alpha = extEvent.webkitCompassHeading;
       }
 
       setHeading(360 - alpha);
@@ -117,7 +125,7 @@ export function QiblaCompass() {
   const isAligned = Math.abs(relativeQibla) < 5 || Math.abs(relativeQibla - 360) < 5;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-8">
+    <div className="min-h-screen bg-slate-100 dark:bg-slate-900 py-8 pb-24">
       <div className="container-app max-w-2xl space-y-8">
         <div className="text-center">
           <Text variant="h1" weight="bold" className="text-gradient">
@@ -198,8 +206,8 @@ export function QiblaCompass() {
                   <Navigation
                     className={`w-24 h-24 ${
                       isAligned
-                        ? 'text-accent-green drop-shadow-lg'
-                        : 'text-primary-main dark:text-primary-light'
+                        ? 'text-emerald-500 drop-shadow-lg'
+                        : 'text-teal-600 dark:text-teal-400'
                     }`}
                     fill="currentColor"
                   />
@@ -267,6 +275,7 @@ export function QiblaCompass() {
           </Text>
         </div>
       </div>
+      <BottomNav />
     </div>
   );
 }

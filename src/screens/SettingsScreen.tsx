@@ -91,7 +91,7 @@ export function SettingsScreen() {
           <Card>
             <button
               onClick={toggleTheme}
-              className="w-full px-4 py-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+              className="w-full px-4 py-4 flex items-center justify-between active:neo-pressed transition-all rounded-lg"
             >
               <div className="flex items-center gap-3">
                 <div className="text-teal-600 dark:text-teal-400">
@@ -114,7 +114,7 @@ export function SettingsScreen() {
             Izin Aplikasi
           </Text>
 
-          <Card className="divide-y divide-gray-200 dark:divide-gray-700">
+          <Card className="divide-y divide-slate-300 dark:divide-slate-700">
             <div className="p-4">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-start gap-3">
@@ -138,7 +138,7 @@ export function SettingsScreen() {
               {locationPermission !== 'granted' && (
                 <Button
                   variant="secondary"
-                  size="sm"
+                  size="small"
                   fullWidth
                   onClick={handleRequestLocation}
                   disabled={isLoadingLocation}
@@ -171,7 +171,7 @@ export function SettingsScreen() {
               {notificationPermission === 'granted' ? (
                 <Button
                   variant={notificationsEnabled ? 'primary' : 'secondary'}
-                  size="sm"
+                  size="small"
                   fullWidth
                   onClick={handleToggleNotifications}
                   leftIcon={notificationsEnabled ? <Bell className="w-4 h-4" /> : <BellOff className="w-4 h-4" />}
@@ -181,7 +181,7 @@ export function SettingsScreen() {
               ) : (
                 <Button
                   variant="secondary"
-                  size="sm"
+                  size="small"
                   fullWidth
                   onClick={handleToggleNotifications}
                 >

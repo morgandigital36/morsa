@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Card } from '../components/atoms/Card';
 import { Text } from '../components/atoms/Text';
 import { Button } from '../components/atoms/Button';
@@ -40,7 +40,7 @@ export function WiridCounter() {
 
   if (!selectedWirid) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-8 pb-24">
+      <div className="min-h-screen bg-slate-100 dark:bg-slate-900 py-8 pb-24">
         <div className="container-app space-y-6">
           <div>
             <Text variant="h1" weight="bold" className="text-gradient">
@@ -54,7 +54,7 @@ export function WiridCounter() {
           <div className="relative">
             <button
               onClick={() => setShowCategoryFilter(!showCategoryFilter)}
-              className="flex items-center gap-2 px-4 py-2 bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-300 rounded-lg hover:bg-teal-100 dark:hover:bg-teal-900/30 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 neo-button text-teal-700 dark:text-teal-300 rounded-lg active:neo-pressed transition-colors"
             >
               <Filter className="w-4 h-4" />
               <Text variant="body" weight="medium">
@@ -63,7 +63,7 @@ export function WiridCounter() {
             </button>
 
             {showCategoryFilter && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 max-h-64 overflow-y-auto z-10">
+              <div className="absolute top-full left-0 right-0 mt-4 neo-card rounded-lg overflow-y-auto z-10 max-h-64">
                 <button
                   onClick={() => {
                     setSelectedCategory('Semua');
@@ -106,7 +106,7 @@ export function WiridCounter() {
                 className="cursor-pointer relative"
               >
                 <div className="space-y-3">
-                  <Text variant="arabic" align="center" className="text-2xl leading-relaxed">
+                  <Text variant="arabic" align="center" className="text-3xl leading-relaxed font-uthmanic">
                     {wirid.arabic}
                   </Text>
 
@@ -139,7 +139,7 @@ export function WiridCounter() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-8">
+    <div className="min-h-screen bg-slate-100 dark:bg-slate-900 py-8">
       <div className="container-app max-w-2xl space-y-8">
         <div className="flex items-center justify-between">
           <Button variant="ghost" onClick={() => setSelectedWirid(null)}>
@@ -148,7 +148,7 @@ export function WiridCounter() {
         </div>
 
         <Card padding="lg" className="text-center space-y-6">
-          <Text variant="arabic" align="center" className="text-4xl md:text-5xl leading-relaxed">
+          <Text variant="arabic" align="center" className="text-5xl md:text-6xl leading-relaxed font-uthmanic">
             {selectedWirid.arabic}
           </Text>
 
@@ -170,7 +170,7 @@ export function WiridCounter() {
             )}
 
             <Text variant="caption" color="secondary" className="mt-3 block">
-              "{selectedWirid.translation}"
+              {selectedWirid.translation}
             </Text>
           </div>
         </Card>
@@ -192,7 +192,7 @@ export function WiridCounter() {
         </div>
 
         <div className="space-y-4">
-          <div className="relative w-full h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+          <div className="relative w-full h-3 neo-pressed rounded-full overflow-hidden">
             <div
               className={`absolute top-0 left-0 h-full transition-all duration-300 ${
                 isComplete ? 'bg-emerald-500' : 'bg-teal-500'
@@ -213,7 +213,7 @@ export function WiridCounter() {
 
         <button
           onClick={increment}
-          className="w-full h-32 rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 text-white text-2xl font-bold shadow-2xl hover:shadow-3xl transform hover:scale-105 active:scale-95 transition-all duration-200"
+          className="w-full h-32 rounded-2xl neo-button flex items-center justify-center text-teal-600 dark:text-teal-400 text-3xl font-bold active:neo-pressed transition-all duration-200"
         >
           KETUK
         </button>
@@ -233,7 +233,7 @@ export function WiridCounter() {
             type="number"
             value={target}
             onChange={(e) => setTarget(parseInt(e.target.value) || 33)}
-            className="w-32 px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
+            className="w-32 px-4 py-2 rounded-lg bg-slate-200 dark:bg-slate-800 neo-pressed border-none text-gray-900 dark:text-gray-100 outline-none focus:ring-1 focus:ring-teal-500"
             placeholder="Target"
             min="1"
           />

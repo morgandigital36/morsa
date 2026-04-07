@@ -48,13 +48,16 @@ export function DoaScreen() {
             </div>
 
             <div className="space-y-6">
-              <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow border border-teal-50 dark:border-teal-900/30">
+              <div className="neo-card rounded-2xl p-6 sm:p-8 hover:shadow-md transition-shadow border-none">
                 <Text variant="caption" className="mb-4 text-teal-600 dark:text-teal-400 font-medium tracking-wide uppercase block">
                   Teks Arab
                 </Text>
-                <Text className="text-3xl sm:text-4xl leading-loose font-uthmanic text-gray-900 dark:text-gray-100" align="right" style={{ lineHeight: '2.4' }}>
+                <div
+                  className="text-3xl sm:text-4xl font-uthmanic text-gray-900 dark:text-gray-100 text-right"
+                  style={{ lineHeight: '2.6' }}
+                >
                   {selectedDoa.arabic}
-                </Text>
+                </div>
               </div>
 
               <div className="pt-4 border-t border-gray-100 dark:border-gray-700/50">
@@ -71,7 +74,7 @@ export function DoaScreen() {
                   Terjemahan
                 </Text>
                 <Text variant="body" className="text-gray-600 dark:text-gray-400 leading-relaxed text-lg">
-                  "{selectedDoa.translation}"
+                  {selectedDoa.translation}
                 </Text>
               </div>
             </div>
@@ -91,14 +94,14 @@ export function DoaScreen() {
             placeholder="Cari doa..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="w-full pl-12 pr-4 py-3 rounded-lg bg-slate-200 dark:bg-slate-800 neo-pressed border-none focus:outline-none focus:ring-1 focus:ring-teal-500"
           />
         </div>
 
         <div className="relative">
           <button
             onClick={() => setShowCategoryFilter(!showCategoryFilter)}
-            className="flex items-center gap-2 px-4 py-2 bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-300 rounded-lg hover:bg-teal-100 dark:hover:bg-teal-900/30 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 neo-button text-teal-700 dark:text-teal-300 rounded-lg active:neo-pressed transition-colors"
           >
             <Filter className="w-4 h-4" />
             <Text variant="body" weight="medium">
@@ -107,7 +110,7 @@ export function DoaScreen() {
           </button>
 
           {showCategoryFilter && (
-            <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 max-h-64 overflow-y-auto z-10">
+            <div className="absolute top-full left-0 right-0 mt-4 neo-card rounded-lg overflow-y-auto z-10 max-h-64">
               <button
                 onClick={() => {
                   setSelectedCategory('Semua');

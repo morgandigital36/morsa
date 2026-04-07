@@ -10,6 +10,14 @@ export interface Surah {
   indonesianName?: string;
 }
 
+export interface Ayah {
+  number: number;
+  text: string;
+  numberInSurah: number;
+  juz: number;
+  page: number;
+}
+
 export interface SurahData {
   number: number;
   name: string;
@@ -17,7 +25,7 @@ export interface SurahData {
   englishNameTranslation: string;
   revelationType: string;
   numberOfAyahs: number;
-  ayahs: any[];
+  ayahs: Ayah[];
 }
 
 class QuranService {

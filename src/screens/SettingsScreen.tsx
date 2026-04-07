@@ -206,28 +206,37 @@ export function SettingsScreen() {
         </div>
 
         <Card>
-          <div className="p-4 space-y-3">
+          <div className="p-5 space-y-4">
             <Text variant="h4" weight="semibold">
               Tentang Aplikasi
             </Text>
 
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <Text variant="caption" color="secondary">
-                  Versi
-                </Text>
-                <Text variant="caption" weight="medium">
-                  1.0.0
-                </Text>
-              </div>
+            <div className="space-y-4 text-xs leading-relaxed text-slate-600 dark:text-slate-300 text-justify">
+              <p>
+                Aplikasi Rabithah merupakan platform digital islami yang dirancang untuk membantu umat Muslim dalam menjalankan ibadah sehari-hari secara lebih mudah, terarah, dan konsisten. Aplikasi ini menghadirkan berbagai fitur penting seperti Al-Qur’an digital, jadwal sholat, kumpulan wirid dan dzikir, serta berbagai kebutuhan ibadah lainnya dalam satu aplikasi terintegrasi.
+              </p>
+              <p>
+                Melalui fitur Al-Qur’an digital, pengguna dapat membaca dan mempelajari Al-Qur’an kapan saja dan di mana saja. Selain itu, tersedia juga jadwal sholat yang akurat sesuai lokasi pengguna, sehingga membantu dalam menjaga ketepatan waktu ibadah.
+              </p>
+              <p>
+                Aplikasi Rabithah juga menyediakan kumpulan wirid, dzikir harian, dan doa-doa pilihan yang dapat diamalkan dalam kehidupan sehari-hari. Dengan tampilan yang sederhana dan mudah digunakan, aplikasi ini cocok untuk semua kalangan, baik pemula maupun yang sudah terbiasa dengan teknologi.
+              </p>
+              <p>
+                Lebih dari sekadar aplikasi, Rabithah hadir sebagai teman spiritual yang membantu meningkatkan kualitas ibadah dan memperkuat hubungan dengan Allah SWT di tengah kesibukan aktivitas harian.
+              </p>
+              <p>
+                Dengan memanfaatkan teknologi digital, Aplikasi Rabithah diharapkan dapat menjadi solusi praktis bagi umat Muslim dalam mengakses kebutuhan ibadah secara lengkap, modern, dan tetap berlandaskan nilai-nilai keislaman.
+              </p>
+            </div>
 
+            <div className="pt-4 mt-2 border-t border-slate-200 dark:border-slate-700/50 space-y-2 text-sm">
               <div className="flex justify-between">
-                <Text variant="caption" color="secondary">
-                  Platform
-                </Text>
-                <Text variant="caption" weight="medium">
-                  Web
-                </Text>
+                <Text variant="caption" color="secondary">Versi</Text>
+                <Text variant="caption" weight="medium">1.0.0</Text>
+              </div>
+              <div className="flex justify-between">
+                <Text variant="caption" color="secondary">Platform</Text>
+                <Text variant="caption" weight="medium">Web</Text>
               </div>
             </div>
           </div>
